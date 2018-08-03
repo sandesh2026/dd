@@ -1,0 +1,37 @@
+
+select * from (select * from emp order by sal desc) where rownum <=5;
+
+
+
+declare
+max1 number(8) := 0;
+cursor employ is select * from emp;
+	curemploy employ%rowtype;
+	begin
+        
+	open employ;
+	loop
+        fetch employ into curemploy;
+        exit when employ%notfound;
+        if curemploy.sal > max1 then
+        max1 := curemploy.sal;
+	end if;
+ end loop;
+dbms_output.put_line(max1);
+close employ;
+end;
+/
+
+
+declare
+CURSOR employ IS SELECT sal, empno, ename FROM emp order by sal desc;
+curemploy employ%rowtype;
+	begin
+         open employ;
+	loop
+        fetch employ into curemploy;
+       EXIT WHEN (employ%ROWCOUNT >5) or (employ%NOTFOUND);
+dbms_output.put_line(curemploy.sal ||'      '|| curemploy.empno ||'      '|| curemploy.ename);
+END LOOP;
+CLOSE employ;
+END;

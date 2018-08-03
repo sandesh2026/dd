@@ -1,0 +1,61 @@
+logic:
+one curser is pointed to the action table
+open that cursor
+if operation o==u then update the table, after update do rowcount, if rowcount>=1(if row present) do update otherwise insert the elements to the table
+if operation o==i then then update the table, after update do rowcount, if rowcount>=1(if row present) print update otherwise insert the elements to the table
+if operation o==d then delete the row from the table
+
+ declare
+cursor employ2 is select * from action;
+
+    curemploy employ2%rowtype;
+    /*curemploy1 employ3%rowtype;*/
+    begin
+ 
+   open employ2;
+   
+   loop
+   fetch employ2 into curemploy;
+   exit when employ2%notfound;
+ 
+    if (curemploy.o = 'u') then
+ update acc set acc.bal = curemploy.new_value where acc.account_ID = curemploy.account_ID  ;
+
+            if(sql%rowcount >=1) then
+
+ update acc set acc.bal = curemploy.new_value where acc.account_ID = curemploy.account_ID  ;
+       	
+	update action set status=('success') where o='u';	  
+	    else
+
+          	   insert into acc (acc.account_ID, acc.bal) values(curemploy.account_ID, curemploy.new_value); 
+		   update action set status=('success') where o='u';
+            end if;
+
+    elsif (curemploy.o = 'i') then
+update acc set acc.bal = curemploy.new_value where acc.account_ID = curemploy.account_ID  ;
+          if(sql%rowcount >=1) then
+                  update acc set acc.bal = curemploy.new_value where acc.account_ID = curemploy.account_ID  ;
+		update action set status=('success') where o='i';
+	 else
+                insert into acc (acc.account_ID, acc.bal) values(curemploy.account_ID, curemploy.new_value);
+		update action set status=('success') where o='i';
+	 end if;
+   
+    elsif(curemploy.o='d')then
+                delete from acc where account_ID = curemploy.account_ID;
+		
+      
+     else
+     delete from acc where account_ID = curemploy.account_ID;
+
+   end if;
+
+    end loop;
+    
+   close employ2;
+   end;
+  /
+
+
+

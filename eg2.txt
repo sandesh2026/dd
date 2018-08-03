@@ -1,0 +1,13 @@
+create procedure ss( ENAME1 VARCHAR2(10)) is
+declare
+cursor empl1 is select * from emp;
+cemp empl1%rowtype;
+begin
+open empl1;
+loop 
+fetch empl1 into empl1 ;
+exit whn empl1%notfound;
+dbms_output.put_line(cemp.job, cemp.job, cemp.mgr);
+end loop;
+close empl1;
+end;

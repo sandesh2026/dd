@@ -1,0 +1,13 @@
+declare
+cursor employ is select * from emp;
+curemploy employ%rowtype;
+begin
+open employ;
+loop
+fetch employ into curemploy;
+exit when employ%notfound;
+dbms_output.put_line(curemploy.ename);
+end loop;
+close employ;
+end;
+/

@@ -1,0 +1,22 @@
+declare
+max1 number(8) := 0;
+cursor employ is select * from emp;
+	curemploy employ%rowtype;
+	begin
+        
+	open employ;
+	loop
+        fetch employ into curemploy;
+        exit when employ%notfound;
+        if curemploy.sal > max1 then
+        max1 := curemploy.sal;
+	end if;
+ end loop;
+dbms_output.put_line(max1);
+close employ;
+end;
+/
+
+
+
+

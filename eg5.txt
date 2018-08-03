@@ -1,0 +1,60 @@
+declare
+c number(10):= 0;
+cursor employ is select * from action;
+select * from acc;
+
+	
+curemploy employ%rowtype;
+
+	begin
+        
+	open employ;
+
+	loop
+        fetch employ into curemploy;
+exit when employ%notfound;
+
+        if (curemploy.o = 'u') then
+        update acc set bal = curemploy.new_value where curemploy1.account_ID = curemploy.account_ID ;
+
+	end if;
+ end loop;
+dbms_output.put_line(curemploy1.account_ID||'      '||curemploy1.bal);
+close employ;
+close employ1;
+end;
+/
+/*    else if (action.o = 'i') then
+        c := insert1(action.new_value);
+        else if (action.o = 'd') then
+        c := delete1(actio.new_value); 
+        else 
+        exit */
+
+create or replace function update1(vara in varchar(10))
+return number
+is
+begin
+update acc set bal = curemploy.new_value where acc.account_ID = action.account_ID ;
+return vara;
+end;
+/
+
+
+create or replace function insert1(acc.bal in number(10))
+return number
+is
+begin
+insert into acc (acc.account_ID, acc.bal) values(action.account_ID, action.new_value);
+return acc.bal;
+end;
+/
+
+create or replace function delete1(acc.bal in number(10))
+return number
+is
+begin
+delete from action;
+return acc.bal;
+end;
+/
